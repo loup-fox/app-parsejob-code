@@ -2,7 +2,7 @@ import { CssBaseline } from "@mui/material";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Authenticated } from "./auth/Authenticated";
-import { CodingPage } from "./pages/CodingPage";
+import { MainPage } from "./pages/MainPage";
 import { LoginPage } from "./pages/LoginPage";
 
 function App() {
@@ -15,7 +15,8 @@ function App() {
         <Routes>
           <Route path="sign-in" element={<LoginPage />} />
           <Route path="/" element={<Authenticated />}>
-            <Route index element={<CodingPage />} />
+            <Route index element={<MainPage />} />
+            <Route path="parser/:parserName" element={<MainPage />} />
           </Route>
         </Routes>
       </BrowserRouter>
