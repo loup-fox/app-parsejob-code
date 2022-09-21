@@ -1,0 +1,38 @@
+{
+  "name": "app-parsejob-v5-web",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.10.4",
+    "@emotion/styled": "^11.10.4",
+    "@monaco-editor/react": "^4.4.5",
+    "@mui/icons-material": "^5.10.6",
+    "@mui/material": "^5.10.6",
+    "@tanstack/react-query": "^4.3.9",
+    "formik": "^2.2.9",
+    "jotai": "^1.8.4",
+    "lodash": "^4.17.21",
+    "monaco-editor": "^0.34.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router": "^6.4.0",
+    "react-router-dom": "^6.4.0",
+    "react-spaces": "^0.3.6",
+    "react-virtuoso": "^2.19.0",
+    "zod": "^3.19.1"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.185",
+    "@types/react": "^18.0.17",
+    "@types/react-dom": "^18.0.6",
+    "@vitejs/plugin-react": "^2.1.0",
+    "typescript": "^4.6.4",
+    "vite": "^3.1.0"
+  }
+}
