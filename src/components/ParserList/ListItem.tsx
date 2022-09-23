@@ -1,8 +1,10 @@
 import { Box, Chip, colors } from "@mui/material";
 import { Stack } from "@mui/system";
-import { ParserSummary } from "../api/types/ParserSummary";
+import { ParserSummary } from "../../api/types/ParserSummary";
+import { PriorityIcon } from "../PriorityIcon";
+import { StatusChip } from "../StatusChip";
 
-export const ParserListPanelEntry = ({
+export const ListItem = ({
   isSelected,
   parser,
   onSelect: onClick,
@@ -23,10 +25,9 @@ export const ParserListPanelEntry = ({
       onClick={() => onClick(parser.name)}
     >
       <Stack direction={"row"}>
-        <Box sx={{ flex: 1 }}>{parser.name}</Box>
-        <Box>
-          <Chip size="small" label={parser.status} />
-        </Box>
+        <PriorityIcon priority={parser.priority ?? "trivial"} />
+        <Box sx={{ flex: 1, ml: 1 }}>{parser.name}</Box>
+        <StatusChip status={parser.status} />
       </Stack>
     </Box>
   );
