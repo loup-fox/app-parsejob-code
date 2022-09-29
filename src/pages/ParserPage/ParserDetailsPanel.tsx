@@ -34,10 +34,13 @@ export const ParserDetailsPanel = () => {
           from: parser.from,
           subjectFilter: parser.subjectFilter,
           useBqFilter: parser.useBqFilter,
+          bqFilter: parser.bqFilter,
+          parseOnlyHtml: parser.parseOnlyHtml,
+          pdfToHtml: parser.pdf,
         }}
         onSubmit={(values) => {}}
       >
-        {({ values, getFieldProps }) => (
+        {({ values, getFieldProps, setFieldValue }) => (
           <Form>
             <Accordion>
               <AccordionSummary>
@@ -82,7 +85,46 @@ export const ParserDetailsPanel = () => {
                   />
                   <FormControlLabel
                     label="Use BQ Filter"
-                    control={<Switch checked={values.useBqFilter} />}
+                    control={
+                      <Switch
+                        checked={values.useBqFilter}
+                        onChange={(_, value) =>
+                          setFieldValue("useBqFilter", value)
+                        }
+                      />
+                    }
+                  />
+                  {values.useBqFilter && (
+                    <TextField
+                      label="BQ Filter"
+                      {...getFieldProps("bqFilter")}
+                    />
+                  )}
+                  <TextField
+                    label="HTML Filter"
+                    {...getFieldProps("htmlFilter")}
+                  />
+                  <FormControlLabel
+                    label="Parse text email"
+                    control={
+                      <Switch
+                        checked={values.parseOnlyHtml}
+                        onChange={(_, checked) =>
+                          setFieldValue("parseOnlyHtml", checked)
+                        }
+                      />
+                    }
+                  />
+                  <FormControlLabel
+                    label="PDF to HTML"
+                    control={
+                      <Switch
+                        checked={values.pdfToHtml}
+                        onChange={(_, checked) =>
+                          setFieldValue("pdfToHtml", checked)
+                        }
+                      />
+                    }
                   />
                 </Stack>
               </AccordionDetails>

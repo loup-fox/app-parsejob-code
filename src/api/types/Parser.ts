@@ -15,5 +15,7 @@ export const Parser = z.object({
   sourceCodeAnonymization: z.string().nullable().optional().default(""),
   sourceCodePostParser: z.string().nullable().optional().default(""),
   samples: z.object({}).array(),
+  parseOnlyHtml: z.boolean().optional().default(false),
+  pdf: z.boolean().optional().default(false),
 });
 export type Parser = z.infer<typeof Parser>;
