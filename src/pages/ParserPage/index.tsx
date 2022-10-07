@@ -1,4 +1,4 @@
-import { colors, Stack, useTheme } from "@mui/material";
+import { Box, colors, Stack, useTheme } from "@mui/material";
 import { useNavigate } from "react-router";
 import * as Spaces from "react-spaces";
 import { ParserList } from "../../components/ParserList";
@@ -31,7 +31,7 @@ export const ParserPage = () => {
             }}
           />
         </Spaces.LeftResizable>
-        <Spaces.Fill>
+        <Spaces.Fill style={{ display: "flex", overflow: "auto" }}>
           <ParserDetailsPanel />
         </Spaces.Fill>
       </Spaces.Fill>

@@ -5,6 +5,7 @@ import { Authenticated } from "./auth/Authenticated";
 import { MainPage } from "./pages/MainPage";
 import { LoginPage } from "./pages/LoginPage";
 import { ParserPage } from "./pages/ParserPage";
+import { ParserCodingPage } from "./pages/ParserCodingPage";
 
 function App() {
   return (
@@ -15,6 +16,11 @@ function App() {
           <Route index element={<ParserPage />} />
           <Route path="parser" element={<ParserPage />} />
           <Route path="parser/:parserName" element={<ParserPage />} />
+          <Route path="parser/coding" element={<ParserCodingPage />} />
+          <Route
+            path="parser/coding/:parserName"
+            element={<ParserCodingPage />}
+          />
         </Route>
       </Routes>
     </BrowserRouter>

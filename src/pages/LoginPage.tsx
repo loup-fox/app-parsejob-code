@@ -12,7 +12,7 @@ import { api } from "../api";
 import { useToken } from "../auth/tokenAtom";
 
 export const LoginPage = () => {
-  const { mutate: login } = api.useLogin();
+  const { mutate: login } = api.useLoginMutation();
   const token = useToken();
   if (token) {
     return <Navigate to="/" />;

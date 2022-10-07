@@ -15,7 +15,8 @@ export const login = async (params: { email: string; password: string }) => {
     },
     body: JSON.stringify(params),
   });
-  return LoginResponse.parse(await response.json());
+  const data = await response.json();
+  return LoginResponse.parse(data);
 };
 
 export const getAllParsers = async (token: string | null) => {
@@ -40,8 +41,23 @@ export const getParser = async (token: string | null, name: string) => {
   return Parser.parse(data);
 };
 
+export const updateParser = async (
+  token: string | null,
+  parserName: string,
+  fields: Partial<Parser>
+) => {
+  await fetch(`${API_URL}/parser/${parserName}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(fields),
+  });
+};
+
 export const api = {
-  useLogin: () => {
+  useLoginMutation: () => {
     const setToken = useSetAtom(tokenAtom);
     const queryClient = useQueryClient();
     return useMutation(login, {
@@ -55,10 +71,23 @@ export const api = {
     const token = useToken();
     return useQuery(["parsers"], () => getAllParsers(token));
   },
-  useGetParser: (name: string | null) => {
+  useGetParserQuery: (name: string | null) => {
     const token = useToken();
     return useQuery(["parsers", name], () => getParser(token, name!), {
       enabled: !!name,
     });
+  },
+  useUpdateParserMutation: () => {
+    const token = useToken();
+    const queryClient = useQueryClient();
+    return useMutation(
+      (props: { name: string; fields: Partial<Parser> }) =>
+        updateParser(token, props.name, props.fields),
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries(["parsers", name]);
+        },
+      }
+    );
   },
 };

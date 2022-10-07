@@ -5,6 +5,7 @@ import {
   Box,
   Button,
   ButtonGroup,
+  Divider,
   FormControlLabel,
   Stack,
   Switch,
@@ -12,14 +13,19 @@ import {
   Typography,
 } from "@mui/material";
 import { Form, Formik } from "formik";
+import { api } from "../../api";
+import { normalizeSanityChecks } from "../../api/helpers/normalizeSanityChecks";
 import { StatusChip } from "../../components/StatusChip";
 import { useCurrentParser } from "./hooks/useCurrentParser";
+import { SanityListSelectors } from "./SanityListSelectors";
 
 export const ParserDetailsPanel = () => {
   const parser = useCurrentParser();
+  const { mutate: updateParser } = api.useUpdateParserMutation();
+
   if (!parser) return null;
   return (
-    <Stack p={2}>
+    <Stack p={2} flex={1}>
       <Stack spacing={1} direction="row" alignItems={"baseline"}>
         <Typography variant="h4" sx={{ fontWeight: "bold" }}>
           {parser.name}
@@ -35,12 +41,20 @@ export const ParserDetailsPanel = () => {
           subjectFilter: parser.subjectFilter,
           useBqFilter: parser.useBqFilter,
           bqFilter: parser.bqFilter,
+          htmlFilter: parser.htmlFilter ?? "",
           parseOnlyHtml: parser.parseOnlyHtml,
-          pdfToHtml: parser.pdf,
+          sanityList: normalizeSanityChecks(parser.sanityList ?? []),
+          pdf: parser.pdf,
+          note: parser.note,
         }}
-        onSubmit={(values) => {}}
+        onSubmit={(values) => {
+          updateParser({
+            name: parser.name,
+            fields: values,
+          });
+        }}
       >
-        {({ values, getFieldProps, setFieldValue }) => (
+        {({ values, getFieldProps, setFieldValue, submitForm, resetForm }) => (
           <Form>
             <Accordion>
               <AccordionSummary>
@@ -59,6 +73,7 @@ export const ParserDetailsPanel = () => {
                       <Button
                         onClick={(ev) => {
                           ev.stopPropagation();
+                          submitForm();
                         }}
                         variant="contained"
                       >
@@ -67,6 +82,7 @@ export const ParserDetailsPanel = () => {
                       <Button
                         onClick={(ev) => {
                           ev.stopPropagation();
+                          resetForm();
                         }}
                         variant="outlined"
                       >
@@ -102,13 +118,14 @@ export const ParserDetailsPanel = () => {
                   )}
                   <TextField
                     label="HTML Filter"
+                    multiline
                     {...getFieldProps("htmlFilter")}
                   />
                   <FormControlLabel
                     label="Parse text email"
                     control={
                       <Switch
-                        checked={values.parseOnlyHtml}
+                        checked={values.parseOnlyHtml ?? false}
                         onChange={(_, checked) =>
                           setFieldValue("parseOnlyHtml", checked)
                         }
@@ -119,12 +136,42 @@ export const ParserDetailsPanel = () => {
                     label="PDF to HTML"
                     control={
                       <Switch
-                        checked={values.pdfToHtml}
-                        onChange={(_, checked) =>
-                          setFieldValue("pdfToHtml", checked)
-                        }
+                        checked={values.pdf}
+                        onChange={(_, checked) => setFieldValue("pdf", checked)}
                       />
                     }
+                  />
+                  <TextField
+                    label="Notes"
+                    multiline
+                    {...getFieldProps("note")}
+                  />
+                  <Divider />
+                  <Stack spacing={2}>
+                    <Typography>Sanity Checks</Typography>
+                    <SanityListSelectors />
+                  </Stack>
+                  <TextField
+                    disabled
+                    label="Company"
+                    value={parser.companyExpeditor}
+                  />
+                  {parser.type !== "crawler" && (
+                    <TextField
+                      disabled
+                      label="Transaction Type"
+                      value={parser.typeTransaction}
+                    />
+                  )}
+                  <TextField
+                    disabled
+                    label="Industry"
+                    value={parser.industry}
+                  />
+                  <TextField
+                    disabled
+                    label="Labels"
+                    value={parser.category?.join(", ")}
                   />
                 </Stack>
               </AccordionDetails>
