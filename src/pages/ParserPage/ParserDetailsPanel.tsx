@@ -2,6 +2,7 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
+  Autocomplete,
   Box,
   Button,
   ButtonGroup,
@@ -25,7 +26,7 @@ export const ParserDetailsPanel = () => {
 
   if (!parser) return null;
   return (
-    <Stack p={2} flex={1}>
+    <Stack p={2} flex={1} spacing={2}>
       <Stack spacing={1} direction="row" alignItems={"baseline"}>
         <Typography variant="h4" sx={{ fontWeight: "bold" }}>
           {parser.name}
@@ -64,9 +65,18 @@ export const ParserDetailsPanel = () => {
                   justifyContent={"space-between"}
                 >
                   <Stack>
-                    <Typography>Parser's settings</Typography>
-                    <Typography>from: {parser.from}</Typography>
-                    <Typography>subject: {parser.subjectFilter}</Typography>
+                    <Typography fontSize="1.3rem" fontWeight="bold">
+                      Parser's settings
+                    </Typography>
+                    <Stack spacing={1} direction="row">
+                      <Typography fontWeight="bold">From:</Typography>{" "}
+                      <Typography>{parser.from}</Typography>
+                    </Stack>
+
+                    <Stack spacing={1} direction="row">
+                      <Typography fontWeight="bold">Subject:</Typography>{" "}
+                      <Typography>{parser.subjectFilter}</Typography>
+                    </Stack>
                   </Stack>
                   <Box>
                     <ButtonGroup>
@@ -151,6 +161,7 @@ export const ParserDetailsPanel = () => {
                     <Typography>Sanity Checks</Typography>
                     <SanityListSelectors />
                   </Stack>
+                  <Divider />
                   <TextField
                     disabled
                     label="Company"
@@ -175,6 +186,27 @@ export const ParserDetailsPanel = () => {
                   />
                 </Stack>
               </AccordionDetails>
+            </Accordion>
+          </Form>
+        )}
+      </Formik>
+      <Formik
+        initialValues={{
+          Order: [],
+          OrderItems: [],
+          UserItems: [],
+        }}
+        onSubmit={(values) => {}}
+      >
+        {({ values, getFieldProps, setFieldValue, submitForm, resetForm }) => (
+          <Form>
+            <Accordion>
+              <AccordionSummary>
+                <Typography fontSize="1.3rem" fontWeight="bold">
+                  Data to parse
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails></AccordionDetails>
             </Accordion>
           </Form>
         )}
