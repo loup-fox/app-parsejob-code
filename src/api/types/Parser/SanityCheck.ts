@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { SanityList } from "./SanityList";
 
 export const SanityCheck = z.union([
   z.literal("distinctItemQuantity"),
@@ -11,5 +10,5 @@ export const SanityCheck = z.union([
   z.literal("outliers"),
   z.literal("pricePerUnit"),
 ]);
-export type SanityCheck = SanityList[number];
+export type SanityCheck = z.infer<typeof SanityCheck>;
 export const SANITY_CHECKS = SanityCheck._def.options.map((o) => o.value);

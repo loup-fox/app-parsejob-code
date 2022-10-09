@@ -3,6 +3,7 @@ import { useSetAtom } from "jotai";
 import { tokenAtom, useToken } from "../auth/tokenAtom";
 import { LoginResponse } from "./types/LoginResponse";
 import { Parser } from "./types/Parser";
+import { Sample } from "./types/Parser/Sample";
 import { ParserSummaryMap } from "./types/ParserSummaryMap";
 
 const API_URL = import.meta.env.API_URL || "http://localhost:3000/api";
@@ -29,6 +30,21 @@ export const getAllParsers = async (token: string | null) => {
   return ParserSummaryMap.parse(await result.json());
 };
 
+export const getSample = async (
+  token: string | null,
+  name: string,
+  sample: number
+) => {
+  const result = await fetch(`${API_URL}/parser/${name}/sample/${sample}`, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const data = await result.json();
+  console.dir(data);
+  return Sample.parse(data);
+};
 export const getParser = async (token: string | null, name: string) => {
   const result = await fetch(`${API_URL}/parser/${name}`, {
     headers: {
@@ -73,9 +89,17 @@ export const api = {
   },
   useGetParserQuery: (name: string | null) => {
     const token = useToken();
-    return useQuery(["parsers", name], () => getParser(token, name!), {
+    return useQuery(["parsers", { name }], () => getParser(token, name!), {
       enabled: !!name,
     });
+  },
+  useGetSampleQuery: (name: string | null, sample: number | null) => {
+    const token = useToken();
+    return useQuery(
+      ["parsers", { name, sample }],
+      () => getSample(token, name!, sample!),
+      { enabled: !!name && sample !== null }
+    );
   },
   useUpdateParserMutation: () => {
     const token = useToken();

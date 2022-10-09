@@ -1,10 +1,11 @@
 import { Box, colors, Stack, useTheme } from "@mui/material";
-import { useNavigate } from "react-router";
+import { Route, Routes, useNavigate } from "react-router";
 import * as Spaces from "react-spaces";
 import { ParserList } from "../../components/ParserList";
 import { TopBar } from "../../components/TopBar";
 import { ParserDetailsPanel } from "./ParserDetailsPanel";
 import { useCurrentParser } from "./hooks/useCurrentParser";
+import { ParserSamplesPanel } from "./ParserSamplesPanel";
 
 export const ParserPage = () => {
   const parser = useCurrentParser();
@@ -32,7 +33,21 @@ export const ParserPage = () => {
           />
         </Spaces.LeftResizable>
         <Spaces.Fill style={{ display: "flex", overflow: "auto" }}>
-          <ParserDetailsPanel />
+          <Routes>
+            <Route path=":parserName" element={<ParserDetailsPanel />} />
+            <Route
+              path=":parserName/details"
+              element={<ParserDetailsPanel />}
+            />
+            <Route
+              path=":parserName/samples"
+              element={<ParserSamplesPanel />}
+            />
+            <Route
+              path=":parserName/samples/:sampleNumber"
+              element={<ParserSamplesPanel />}
+            />
+          </Routes>
         </Spaces.Fill>
       </Spaces.Fill>
       <Spaces.Bottom size={34} style={{ display: "flex" }}>

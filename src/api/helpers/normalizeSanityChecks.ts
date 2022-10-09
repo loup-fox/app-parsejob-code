@@ -1,6 +1,4 @@
-import { SanityChecks } from "../types/SanityChecks";
-import { SANITY_CHECKS } from "../types/SANITY_CHECKS";
-import { SanityObject } from "../types/SanityObject";
+import { SanityChecks, SanityObject, SANITY_CHECKS } from "../types/Parser";
 
 export const normalizeSanityChecks = (
   sanityChecks: SanityChecks

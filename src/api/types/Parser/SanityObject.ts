@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { SanityCheckErrorLevel } from "./index";
+import { SanityCheckErrorLevel } from "./SanityCheckErrorLevel";
 
 export const SanityObject = z.object({
   distinctItemQuantity: SanityCheckErrorLevel.optional().nullable(),

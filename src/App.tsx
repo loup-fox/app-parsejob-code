@@ -14,13 +14,8 @@ function App() {
         <Route path="sign-in" element={<LoginPage />} />
         <Route path="/" element={<Authenticated />}>
           <Route index element={<ParserPage />} />
-          <Route path="parser" element={<ParserPage />} />
-          <Route path="parser/:parserName" element={<ParserPage />} />
-          <Route path="parser/coding" element={<ParserCodingPage />} />
-          <Route
-            path="parser/coding/:parserName"
-            element={<ParserCodingPage />}
-          />
+          <Route path="parser/*" element={<ParserPage />} />
+          <Route path="parser-coding/*" element={<ParserCodingPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
