@@ -1,13 +1,21 @@
-import { Paper, Stack, Typography } from "@mui/material";
+import { Stack } from "@mui/material";
+import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router";
+import { api, getFetchingStatus } from "../../api";
+import { useToken } from "../../auth/tokenAtom";
 import { useCurrentParser } from "./hooks/useCurrentParser";
 import { useCurrentSample } from "./hooks/useCurrentSample";
 import { ParserPanelHeader } from "./ParserPanelHeader";
+import { ParserSampleCard } from "./ParserSampleCard";
 
+const MailsFetchingWindow = () => {};
+
+// navigate(`/parser/${parser.name}/samples/${idx}`);
 export const ParserSamplesPanel = () => {
   const parser = useCurrentParser();
   const sample = useCurrentSample();
   const navigate = useNavigate();
+
   if (!parser) return null;
 
   return (
@@ -21,37 +29,19 @@ export const ParserSamplesPanel = () => {
         direction="row"
         overflow={"auto"}
       >
-        <Stack flex={1} pr={2} spacing={2} overflow={"auto"}>
-          {parser.samples.map((s, idx) => (
-            <Paper
-              key={idx}
-              onClick={() => {
-                navigate(`/parser/${parser.name}/samples/${idx}`);
-              }}
-              sx={{
-                p: 2,
-                cursor: "pointer",
-                ":hover": {
-                  boxShadow: (theme) => theme.shadows[10],
-                  pt: 2,
-                  pb: 2,
-                },
-              }}
-            >
-              <Stack spacing={1} alignItems={"baseline"}>
-                <Stack direction="row" spacing={2}>
-                  <Typography fontWeight={"bold"} fontSize="1.2rem">
-                    #{idx}
-                  </Typography>
-                  <Typography>{s.headers.subject}</Typography>
-                </Stack>
-                <Typography fontSize="0.85rem">{s.headers.from}</Typography>
-                <Typography fontSize="0.85rem">
-                  {s.headers.accountId}
-                </Typography>
-              </Stack>
-            </Paper>
-          ))}
+        <Stack flex={1} spacing={2}>
+          <Stack pr={2} spacing={2} overflow={"auto"}>
+            {parser.samples.map((s, idx) => (
+              <ParserSampleCard
+                key={idx}
+                index={idx}
+                onClick={() => {
+                  navigate(`/parser/${parser.name}/samples/${idx}`);
+                }}
+                sample={s}
+              />
+            ))}
+          </Stack>
         </Stack>
         <Stack flex={2} overflow="auto">
           {sample && <iframe style={{ height: "100%" }} srcDoc={sample.html} />}

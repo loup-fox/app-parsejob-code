@@ -57,7 +57,7 @@ export const TopBar = ({
           <img height="30px" src={titleUrl} alt="title" />
         </Box>
         <Stack direction={"row"} display="flex" ml={3} spacing={1}>
-          <Button onClick={() => navigate("/parsers")} color="inherit">
+          <Button onClick={() => navigate("/parser")} color="inherit">
             Parsers
           </Button>
           <Button onClick={() => navigate("/merchants")} color="inherit">
